@@ -1,0 +1,115 @@
+ProU Technology
+Backend - API Development Assignment
+Internship Coding Challenge – Track 2: Backend (API + Database)
+1. Scenario
+You are part of a backend team tasked with building the Task Management API for an internal
+company dashboard.
+Frontend developers will later use your API to power their applica>on (like the one from Track 1).
+Your job is to design and implement RESTful APIs for managing Employees and Tasks.
+The system should allow:
+• Crea>ng and lis>ng employees
+• Crea>ng, upda>ng, and retrieving tasks
+• Linking tasks to employees
+• Filtering tasks by status or employee
+You can use any backend language/framework (Node.js/Express, Python/FastAPI, Java/Spring Boot,
+etc.).
+
+2. Expected Outcome
+A fully functional REST API that performs CRUD operations on:
+• Employees
+• Tasks
+
+3. Deliverables
+Please submit:
+1. A GitHub repository with:
+o API Source code
+o Database schema or migra>on script
+o Sample data (SQL/JSON)
+2. A README.md that includes:
+o Setup and run instruc>ons
+o API endpoints list (with request & response examples)
+o Tech stack used
+o Any assump>ons made
+
+4. Instructions
+•
+•
+•
+•
+•
+•
+
+Use proper REST API standards (e.g., GET /tasks, POST /employees).
+Handle validation and error responses correctly.
+Use clear models/entities for Employee and Task
+Include at least one level of relationship (e.g., Employee ↔ Task)
+Implement basic logging and use appropriate HTTP status codes
+Write modular, readable code (split routes, models, config, etc.)
+
+5. Focus Areas (Evaluation Criteria)
+Area
+
+What we look for
+Clean, logical, RESTful endpoints
+Readable, modular, error handling, consistent naming
+Proper schema, rela>onships, normaliza>on
+Input valida>on and handling of bad requests
+Clear instruc>ons and endpoint details
+Basic endpoint tes>ng (Postman collec>on or script)
+
+API Design
+Code Quality
+Database Design
+Data Valida>on
+Documenta>on
+Tes>ng
+
+6. Bonus Challenge (Optional)
+Add authenGcaGon (simple JWT or API key-based) and allow:
+•
+•
+
+Only authen>cated users to create/update tasks
+Anyone to view tasks (public endpoint)
+
+This demonstrates your understanding of real-world API security concepts.
+
+7. Estimated Time
+4 to 6 hours (depending on framework familiarity).
+
+8. Example Schema
+Employees Table:
+Field
+Id
+Name
+Role
+Email
+
+Type
+INT(PK)
+VARCHAR
+VARCHAR
+VARCHAR
+
+9. Example Endpoints
+•
+•
+•
+•
+•
+•
+
+GET /employees
+POST /employees
+GET /tasks?status=In%20Progress
+POST /tasks
+PUT /tasks/:id
+DELETE /tasks/:id
+
+Descrip.on
+Unique employee ID
+Employee name
+Job role
+Contact email
+
+
