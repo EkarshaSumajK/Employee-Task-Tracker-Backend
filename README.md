@@ -112,3 +112,8 @@ Once the application is running, you can access the interactive API documentatio
 - `GET /api/v1/tasks/{id}`: Get a specific task.
 - `PUT /api/v1/tasks/{id}`: Update a task (Authenticated).
 - `DELETE /api/v1/tasks/{id}`: Delete a task (Authenticated).
+
+
+https://github.com/user-attachments/assets/07673504-1c15-4138-82a1-fd0210229c45
+
+
