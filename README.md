@@ -38,6 +38,7 @@ A RESTful API for managing Employees and Tasks, built with FastAPI and PostgreSQ
     ```bash
     pip install -r requirements.txt
     ```
+    > **Note**: This project requires `bcrypt==3.2.2` due to compatibility issues with `passlib`. Do not upgrade `bcrypt` to 4.x manually.
 
 4.  **Configure Environment Variables**:
     - The `.env` file is already pre-configured with the Neon DB credentials.
@@ -59,6 +60,19 @@ A Jupyter Notebook `api_tests.ipynb` is provided to seed data and test the API.
     ```
     (Or use VS Code's Jupyter extension)
 3.  **Run all cells** to seed users, employees, and tasks, and verify the endpoints.
+
+### Automated Testing
+
+The project includes a comprehensive test suite using `pytest`.
+
+1.  **Run tests**:
+    ```bash
+    pytest
+    ```
+    This will run all tests in the `tests/` directory.
+
+2.  **Test Coverage**:
+    The tests cover API endpoints, database CRUD operations, and authentication flows.
 
 ## API Documentation
 
