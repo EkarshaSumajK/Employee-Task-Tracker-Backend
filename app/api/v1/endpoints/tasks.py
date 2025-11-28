@@ -26,6 +26,10 @@ async def create_task(
     task_in: schemas.TaskCreate,
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Any:
+    if task_in.employee_id:
+        employee = await crud.get_employee(db, employee_id=task_in.employee_id)
+        if not employee:
+            raise HTTPException(status_code=404, detail="Employee not found")
     task = await crud.create_task(db, task=task_in)
     return {"status": 200, "data": task}
 

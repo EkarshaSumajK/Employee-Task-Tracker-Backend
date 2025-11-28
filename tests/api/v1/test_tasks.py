@@ -27,3 +27,21 @@ async def test_read_tasks(client: AsyncClient):
     assert response.status_code == 200
     data = response.json()["data"]
     assert isinstance(data, list)
+
+from app.main import app
+from app.api import deps
+
+@pytest.mark.asyncio
+async def test_create_task_invalid_employee(client: AsyncClient):
+    # Mock authentication
+    app.dependency_overrides[deps.get_current_user] = lambda: {"id": 1, "username": "testuser"}
+    
+    task_data = {
+        "title": "Invalid Task",
+        "description": "Task with invalid employee",
+        "status": "Pending",
+        "employee_id": 99999  # Non-existent ID
+    }
+    response = await client.post("/api/v1/tasks/", json=task_data)
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Employee not found"
