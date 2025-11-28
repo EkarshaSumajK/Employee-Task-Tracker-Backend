@@ -6,7 +6,7 @@ from app.api import deps
 
 router = APIRouter()
 
-@router.get("/", response_model=List[schemas.Task])
+@router.get("/", response_model=schemas.Response[List[schemas.Task]])
 async def read_tasks(
     db: AsyncSession = Depends(deps.get_db),
     skip: int = 0,
@@ -17,9 +17,9 @@ async def read_tasks(
 ) -> Any:
     status_str = status.value if status else None
     tasks = await crud.get_tasks(db, skip=skip, limit=limit, status=status_str, employee_id=employee_id, search=search)
-    return tasks
+    return {"status": 200, "data": tasks}
 
-@router.post("/", response_model=schemas.Task)
+@router.post("/", response_model=schemas.Response[schemas.Task])
 async def create_task(
     *,
     db: AsyncSession = Depends(deps.get_db),
@@ -27,9 +27,9 @@ async def create_task(
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Any:
     task = await crud.create_task(db, task=task_in)
-    return task
+    return {"status": 200, "data": task}
 
-@router.put("/{task_id}", response_model=schemas.Task)
+@router.put("/{task_id}", response_model=schemas.Response[schemas.Task])
 async def update_task(
     *,
     db: AsyncSession = Depends(deps.get_db),
@@ -41,9 +41,9 @@ async def update_task(
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
     task = await crud.update_task(db, db_task=task, task=task_in)
-    return task
+    return {"status": 200, "data": task}
 
-@router.get("/{task_id}", response_model=schemas.Task)
+@router.get("/{task_id}", response_model=schemas.Response[schemas.Task])
 async def read_task(
     *,
     db: AsyncSession = Depends(deps.get_db),
@@ -52,9 +52,9 @@ async def read_task(
     task = await crud.get_task(db, task_id=task_id)
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
-    return task
+    return {"status": 200, "data": task}
 
-@router.delete("/{task_id}", response_model=schemas.Task)
+@router.delete("/{task_id}", response_model=schemas.Response[schemas.Task])
 async def delete_task(
     *,
     db: AsyncSession = Depends(deps.get_db),
@@ -65,4 +65,4 @@ async def delete_task(
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
     task = await crud.delete_task(db, db_task=task)
-    return task
+    return {"status": 200, "data": task}

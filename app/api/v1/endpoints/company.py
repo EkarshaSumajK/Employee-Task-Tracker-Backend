@@ -6,7 +6,7 @@ from app.api import deps
 
 router = APIRouter()
 
-@router.get("/overview", response_model=schemas.CompanyOverview)
+@router.get("/overview", response_model=schemas.Response[schemas.CompanyOverview])
 async def get_company_overview(
     db: AsyncSession = Depends(deps.get_db),
 ) -> Any:
@@ -17,6 +17,9 @@ async def get_company_overview(
     tasks = await crud.get_tasks(db)
     
     return {
-        "employees": employees,
-        "tasks": tasks
+        "status": 200,
+        "data": {
+            "employees": employees,
+            "tasks": tasks
+        }
     }

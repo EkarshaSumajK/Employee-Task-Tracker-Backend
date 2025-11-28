@@ -6,7 +6,7 @@ from app.api import deps
 
 router = APIRouter()
 
-@router.get("/", response_model=List[schemas.User])
+@router.get("/", response_model=schemas.Response[List[schemas.User]])
 async def read_users(
     db: AsyncSession = Depends(deps.get_db),
     skip: int = 0,
@@ -14,9 +14,9 @@ async def read_users(
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Any:
     users = await crud.get_users(db, skip=skip, limit=limit)
-    return users
+    return {"status": 200, "data": users}
 
-@router.post("/", response_model=schemas.User)
+@router.post("/", response_model=schemas.Response[schemas.User])
 async def create_user(
     *,
     db: AsyncSession = Depends(deps.get_db),
@@ -29,9 +29,9 @@ async def create_user(
             detail="The user with this username already exists in the system.",
         )
     user = await crud.create_user(db, user=user_in)
-    return user
+    return {"status": 200, "data": user}
 
-@router.get("/{user_id}", response_model=schemas.User)
+@router.get("/{user_id}", response_model=schemas.Response[schemas.User])
 async def read_user(
     *,
     db: AsyncSession = Depends(deps.get_db),
@@ -41,9 +41,9 @@ async def read_user(
     user = await crud.get_user(db, user_id=user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
-    return user
+    return {"status": 200, "data": user}
 
-@router.put("/{user_id}", response_model=schemas.User)
+@router.put("/{user_id}", response_model=schemas.Response[schemas.User])
 async def update_user(
     *,
     db: AsyncSession = Depends(deps.get_db),
@@ -55,9 +55,9 @@ async def update_user(
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     user = await crud.update_user(db, db_user=user, user=user_in)
-    return user
+    return {"status": 200, "data": user}
 
-@router.delete("/{user_id}", response_model=schemas.User)
+@router.delete("/{user_id}", response_model=schemas.Response[schemas.User])
 async def delete_user(
     *,
     db: AsyncSession = Depends(deps.get_db),
@@ -68,4 +68,4 @@ async def delete_user(
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     user = await crud.delete_user(db, db_user=user)
-    return user
+    return {"status": 200, "data": user}

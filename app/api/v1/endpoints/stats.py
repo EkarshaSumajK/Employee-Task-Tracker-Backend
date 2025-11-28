@@ -6,10 +6,11 @@ from sqlalchemy.future import select
 from app.api import deps
 from app.models.task import Task, TaskStatus
 from app.models.employee import Employee
+from app import schemas
 
 router = APIRouter()
 
-@router.get("/dashboard", response_model=Dict[str, Any])
+@router.get("/dashboard", response_model=schemas.Response[Dict[str, Any]])
 async def get_dashboard_stats(
     db: AsyncSession = Depends(deps.get_db),
 ) -> Any:
@@ -35,7 +36,10 @@ async def get_dashboard_stats(
     total_employees = (await db.execute(total_employees_query)).scalar()
 
     return {
-        "total_tasks": total_tasks,
-        "tasks_by_status": tasks_by_status,
-        "total_employees": total_employees
+        "status": 200,
+        "data": {
+            "total_tasks": total_tasks,
+            "tasks_by_status": tasks_by_status,
+            "total_employees": total_employees
+        }
     }

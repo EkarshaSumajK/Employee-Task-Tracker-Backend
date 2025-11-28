@@ -9,7 +9,7 @@ from app.core import security, config
 
 router = APIRouter()
 
-@router.post("/login/access-token", response_model=schemas.Token)
+@router.post("/login/access-token", response_model=schemas.Response[schemas.Token])
 async def login_access_token(
     db: AsyncSession = Depends(deps.get_db), form_data: OAuth2PasswordRequestForm = Depends()
 ) -> Any:
@@ -22,8 +22,11 @@ async def login_access_token(
         )
     access_token_expires = timedelta(minutes=config.settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     return {
-        "access_token": security.create_access_token(
-            user.username, expires_delta=access_token_expires
-        ),
-        "token_type": "bearer",
+        "status": 200,
+        "data": {
+            "access_token": security.create_access_token(
+                user.username, expires_delta=access_token_expires
+            ),
+            "token_type": "bearer",
+        }
     }

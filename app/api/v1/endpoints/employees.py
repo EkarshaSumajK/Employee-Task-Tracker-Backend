@@ -6,7 +6,7 @@ from app.api import deps
 
 router = APIRouter()
 
-@router.get("/", response_model=List[schemas.Employee])
+@router.get("/", response_model=schemas.Response[List[schemas.Employee]])
 async def read_employees(
     db: AsyncSession = Depends(deps.get_db),
     skip: int = 0,
@@ -14,9 +14,9 @@ async def read_employees(
     search: Optional[str] = None,
 ) -> Any:
     employees = await crud.get_employees(db, skip=skip, limit=limit, search=search)
-    return employees
+    return {"status": 200, "data": employees}
 
-@router.post("/", response_model=schemas.Employee)
+@router.post("/", response_model=schemas.Response[schemas.Employee])
 async def create_employee(
     *,
     db: AsyncSession = Depends(deps.get_db),
@@ -29,9 +29,9 @@ async def create_employee(
             detail="The employee with this email already exists in the system.",
         )
     employee = await crud.create_employee(db, employee=employee_in)
-    return employee
+    return {"status": 200, "data": employee}
 
-@router.get("/{employee_id}", response_model=schemas.Employee)
+@router.get("/{employee_id}", response_model=schemas.Response[schemas.Employee])
 async def read_employee(
     *,
     db: AsyncSession = Depends(deps.get_db),
@@ -40,9 +40,9 @@ async def read_employee(
     employee = await crud.get_employee(db, employee_id=employee_id)
     if not employee:
         raise HTTPException(status_code=404, detail="Employee not found")
-    return employee
+    return {"status": 200, "data": employee}
 
-@router.put("/{employee_id}", response_model=schemas.Employee)
+@router.put("/{employee_id}", response_model=schemas.Response[schemas.Employee])
 async def update_employee(
     *,
     db: AsyncSession = Depends(deps.get_db),
@@ -54,9 +54,9 @@ async def update_employee(
     if not employee:
         raise HTTPException(status_code=404, detail="Employee not found")
     employee = await crud.update_employee(db, db_employee=employee, employee=employee_in)
-    return employee
+    return {"status": 200, "data": employee}
 
-@router.delete("/{employee_id}", response_model=schemas.Employee)
+@router.delete("/{employee_id}", response_model=schemas.Response[schemas.Employee])
 async def delete_employee(
     *,
     db: AsyncSession = Depends(deps.get_db),
@@ -67,4 +67,4 @@ async def delete_employee(
     if not employee:
         raise HTTPException(status_code=404, detail="Employee not found")
     employee = await crud.delete_employee(db, db_employee=employee)
-    return employee
+    return {"status": 200, "data": employee}
