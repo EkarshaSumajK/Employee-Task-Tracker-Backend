@@ -8,7 +8,7 @@ async def test_create_employee(client: AsyncClient):
         json={"name": "Test Employee", "role": "Developer", "email": "test@example.com"},
     )
     assert response.status_code == 200
-    data = response.json()
+    data = response.json()["data"]
     assert data["name"] == "Test Employee"
     assert data["email"] == "test@example.com"
     assert "id" in data
@@ -23,6 +23,6 @@ async def test_read_employees(client: AsyncClient):
     
     response = await client.get("/api/v1/employees/")
     assert response.status_code == 200
-    data = response.json()
+    data = response.json()["data"]
     assert isinstance(data, list)
     assert len(data) > 0

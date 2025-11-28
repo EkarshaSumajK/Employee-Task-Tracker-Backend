@@ -8,7 +8,7 @@ async def test_create_task(client: AsyncClient):
         "/api/v1/employees/",
         json={"name": "Task Employee", "role": "Worker", "email": "task@example.com"},
     )
-    emp_id = emp_response.json()["id"]
+    emp_id = emp_response.json()["data"]["id"]
 
     # Create task (assuming auth is mocked or not required for this test setup, 
     # or we need to add auth headers. For simplicity in this demo, we might hit 401 if auth is strictly enforced.
@@ -25,5 +25,5 @@ async def test_create_task(client: AsyncClient):
 async def test_read_tasks(client: AsyncClient):
     response = await client.get("/api/v1/tasks/")
     assert response.status_code == 200
-    data = response.json()
+    data = response.json()["data"]
     assert isinstance(data, list)
