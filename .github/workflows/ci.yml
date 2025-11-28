@@ -41,5 +41,6 @@ jobs:
     - name: Run tests
       env:
         DATABASE_URL: postgresql+asyncpg://postgres:postgres@localhost:5432/task_db_test
+        SECRET_KEY: test_secret
       run: |
         pytest
